@@ -39,7 +39,7 @@ Only non-self interactions is considered when constructing the adjacency matrix.
 
 Degree centrality of an interactor is normalized by `n-1`, and betweenness centrality of an interactor is normalized by `(n-1)(n-2)/2`, where `n` is the number of unique interactors.
 
-Betweenness centrality is calculated using Brandes algorithm ([Brandes, 2001](http://algo.uni-konstanz.de/publications/b-fabc-01.pdf)), implemented via `brandes.betweenness.centrality()` from the [`RBGL` package](https://www.bioconductor.org/packages/release/bioc/html/RBGL.html). When running `get.centrality`, it checks for presence of `RBGL` and installs it if absent before calling `brandes.betweenness.centrality()`. `brandes.betweenness.centrality()` takes in an object of the class `graph`, converted from the adjacency matrix constructued, and computes absolute betweenness centrality using Brandes algorithm.
+Betweenness centrality is calculated using Brandes algorithm ([Brandes, 2001](http://algo.uni-konstanz.de/publications/b-fabc-01.pdf)), implemented via `brandes.betweenness.centrality()` from the `RBGL` package ([Carey, Long & Gentleman, 2016](https://www.bioconductor.org/packages/release/bioc/html/RBGL.html)). When running `get.centrality`, it checks for presence of `RBGL` and installs it if absent before calling `brandes.betweenness.centrality()`. `brandes.betweenness.centrality()` takes in an object of the class `graph`, converted from the adjacency matrix constructued, and computes absolute betweenness centrality using Brandes algorithm.
 
 #### Example
 `> get.centrality(input.ppi = "sample_input_Rnorv20160114.txt", output.csv = "sample_output.csv")`

@@ -11,7 +11,7 @@ Available [here](https://github.com/jqz752/cbb752_3.2_R)
 * `r_centrality.R`: main script
 
 ## Sample input
-* A MITAB2.5 file that looks like below (e.g. `sample_input_Rnorv20160114.txt`):
+* A MITAB2.5 file that looks like below (e.g. `sample_input_Rnorv20160114.txt`). It is assumed that both `ID interactor A` and `ID interactor B` contain DIP identifiers of the format `DIP-xN`, where `x` is a number.
 
 |ID interactor A	| ID interactor B	| Alt. ID interactor A	| Alt. ID interactor B	| Alias(es) interactor A	| Alias(es) interactor B	| Interaction detection method(s)	| Publication 1st author(s)	| Publication Identifier(s)	| Taxid interactor A	| Taxid interactor B	| Interaction type(s)	| Source database(s)	| Interaction identifier(s)	| Confidence value(s)	| Processing Status	|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -29,6 +29,17 @@ DIP-5717N|8|0.0124804992199688|643|0.0031347503900156
 DIP-5790N|2|0.0031201248049922|1|4.87519500780031e-06
 
 ## Usage
+
+`get.centrality(input.ppi, output.csv)`
+
+* `input.ppi`: filename of input ppi file; must be a tab-delimited file in MITAB2.5 format.
+* `output.csv`: filename of output csv file
+
+Only non-self interactions is considered when constructing the adjacency matrix. That is, an interaction in which `ID interactor A` and `ID interactor B` are the same does not form an edge, and therefore does not contribute to that interactor/protein's degree centrality or betweenness centrality.
+
+Degree centrality of an interactor is normalized by `n-1`, and betweenness centrality of an interactor is normalized by `(n-1)(n-2)/2`, where `n` is the number of unique interactors.
+
+Betweenness centrality is calculated using Brandes algorithm ([Brandes, 2001](http://algo.uni-konstanz.de/publications/b-fabc-01.pdf)), implemented via `brandes.betweenness.centrality()` from the [`RBGL` package](https://www.bioconductor.org/packages/release/bioc/html/RBGL.html). When running `get.centrality`, it checks for presence of `RBGL` and installs it if absent before calling `brandes.betweenness.centrality()`. `brandes.betweenness.centrality()` takes in an object of the class `graph`, converted from the adjacency matrix constructued, and computes absolute betweenness centrality using Brandes algorithm.
 
 #### Example
 `> get.centrality(input.ppi = "sample_input_Rnorv20160114.txt", output.csv = "sample_output.csv")`

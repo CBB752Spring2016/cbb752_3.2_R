@@ -94,7 +94,7 @@ get.centrality = function(input.ppi, output.csv){
                      betweenness_centrality = as.numeric(centrality.btw.abs),
                      betweenness_centrality_relative = as.numeric(centrality.btw.rltv))
   
-  write.csv(centrality, file=output.csv, row.names=F)
+  write.table(centrality, file=output.csv, row.names=F, sep=",", quote=F)
 }
 
 

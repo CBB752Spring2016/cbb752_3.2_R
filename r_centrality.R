@@ -7,9 +7,10 @@ get.centrality = function(input.ppi, output.csv){
   # - filename of input ppi file, must be a tab-delimited file in MITAB2.5 format
   # - filename of output csv file
   # output:
-  # - a .csv file with 4 columns: DIP name of interactor, degree centrality, 
+  # - a .csv file with 5 columns: DIP name of interactor, 
+  #   degree centrality (unnormalized), degree centrality (normalized), 
   #   betweenness centrality of the interactor (absolute), and 
-  #   betweenness centrality of the interactor (relative) 
+  #   betweenness centrality of the interactor (normalized) 
   
   ##### read in MITAB2.5 ppi file
   print(paste0('reading in ', input.ppi, '...'))
@@ -64,6 +65,10 @@ get.centrality = function(input.ppi, output.csv){
   print('computing degree centrality for each unique interactor...')
   centrality.deg = rowSums(adj.mtx)
   
+  # normalize by n-1, 
+  # n=number of nodes (incl. isolated nodes with 0 degree centrality)
+  centrality.deg.norm = centrality.deg / (n.uniq-1)
+  
   ##### betweenness centrality
   print('computing betweenness centrality for each unique interactor...')
   
@@ -84,15 +89,19 @@ get.centrality = function(input.ppi, output.csv){
   ### compute betweenness centrality
   brandes = brandes.betweenness.centrality(adj.graph)
   centrality.btw.abs = brandes$betweenness.centrality.vertices
-  centrality.btw.rltv = brandes$relative.betweenness.centrality.vertices
+  
+  # normalize by (n-1)(n-2)/2, 
+  # n=number of nodes (incl. isolated nodes with 0 degree centrality)
+  centrality.btw.norm = brandes$relative.betweenness.centrality.vertices
   
   ##### output
   print('exporting...')
   centrality = data.frame(interactor = dip.uniq)
   centrality = cbind(centrality, 
                      degree_centrality = as.numeric(centrality.deg),
+                     degree_centrality_norm = as.numeric(centrality.deg.norm),
                      betweenness_centrality = as.numeric(centrality.btw.abs),
-                     betweenness_centrality_relative = as.numeric(centrality.btw.rltv))
+                     betweenness_centrality_norm = as.numeric(centrality.btw.norm))
   
   write.table(centrality, file=output.csv, row.names=F, sep=",", quote=F)
 }

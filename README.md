@@ -1,4 +1,4 @@
-#Quantifying RNA-seq Using RPKM/FPKM/TPM Based on SAM & GTF Files
+#Calculating Centrality for Proteins from MITAB2.5 PPI Files
 
 *CBB752 Final Project 3.2, R card, by Julian Q Zhou*
 

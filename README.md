@@ -4,7 +4,7 @@
 
 ## Objective
 
-Given a tab-delimited protein-protein interaction file of MITAB2.5 format, calculate degree centrality and betweenness centrality for each unique interactor/protein, and export the output as a csv file.
+Given a tab-delimited protein-protein interaction file of [MITAB2.5 format](https://code.google.com/archive/p/psimi/wikis/PsimiTabFormat.wiki), calculate degree centrality and betweenness centrality for each unique interactor/protein, and export the output as a csv file.
 
 ## Source code
 
